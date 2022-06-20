@@ -1,0 +1,22 @@
+{
+  "name": "MPet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron ./",
+    "build:client": "electron-packager ./ mpet –platform=win32 --out=package --overwrite --icon=./favicon.ico --asar"
+  },
+  "devDependencies": {
+    "electron": "^19.0.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "electron-store": "^8.0.2",
+    "uuid": "^8.3.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
