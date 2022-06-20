@@ -2,9 +2,9 @@
   "name": "mpet",
   "version": "1.0.0",
   "description": "",
-  "main": "./client/index.js",
+  "main": "./client/src/index.js",
   "scripts": {
-    "dev:client": "electron ./client/index.js",
+    "dev:client": "electron ./client/src/index.js",
     "dev:page": "vite dev",
     "build": "npm run build:page & npm run build:client",
     "build:page": "vite build --emptyOutDir",

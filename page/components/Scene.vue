@@ -6,9 +6,8 @@
         :class="{ 'tb-btn': true, resize: config.resize }"
         @click="handleConfigChange('resize')"
       >
-        口
+        <i class="iconfont icon-move-full"></i>
       </button>
-      <button class="tb-btn drag">拖</button>
     </div>
   </div>
 </template>
@@ -158,9 +157,14 @@ onMounted(() => {
     overflow: hidden;
   }
   &.resize {
-    border: 1px dotted black;
+    border: 3px dotted black;
+    -webkit-app-region: drag;
+    cursor: move;
     .toolbar {
       opacity: 1;
+      button.resize {
+        -webkit-app-region: no-drag;
+      }
     }
   }
   .toolbar {

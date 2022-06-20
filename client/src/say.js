@@ -1,5 +1,22 @@
 const _ = require("lodash");
 const moment = require("moment");
+const { net } = require("electron");
+
+const yiyan = (url, info, cb) => {
+  const request = net.request(url);
+  request.on("response", (response) => {
+    let data = "";
+    response.on("data", (chunk) => {
+      data += chunk.toString("utf8");
+    });
+    response.on("end", () => {
+      const res = { ...info, value: data };
+      cb(res);
+    });
+  });
+  request.end();
+};
+
 class SayController {
   constructor(say, random, base) {
     this.say = say;
@@ -48,12 +65,23 @@ class SayController {
     } else {
       random = random.filter((i) => i.type !== "timing");
       if (!random.length) return;
-      const idx = _.random(0, random.length - 1);
-      const info = random[idx];
-      if (!info) return;
-      const base = _.random(1, 500);
-      if (base > this.base) return;
-      this.pushSayList(info);
+      const say = (i) => {
+        const idx = _.random(0, random.length - 1);
+        const info = random[idx];
+        if (!info) return;
+        const base = _.random(1, 500);
+        if (base > this.base) return;
+        if (info.type === "time" && i < 2) {
+          say(++i);
+        } else if (info.type === "yiyan") {
+          if (info.value) {
+            yiyan(info.value, info, this.pushSayList.bind(this));
+          }
+        } else {
+          this.pushSayList(info);
+        }
+      };
+      say(1);
     }
   }
 

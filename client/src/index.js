@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Tray, Menu, dialog } = require("electron");
 const path = require("path");
 const Server = require("./server");
 
-const IS_LOCAL = false;
+const IS_LOCAL = true;
 const LOCAL_URL = "http://localhost:3000";
 const DEV = {
   main: false,
@@ -98,7 +98,7 @@ class Client {
           `${LOCAL_URL}/pre.html?filepath=${this.makeModelPath(filepath)}`
         );
       } else {
-        this.preDialog.loadFile(path.join(__dirname, "renderer/pre.html"), {
+        this.preDialog.loadFile(path.join(__dirname, "../renderer/pre.html"), {
           search: "?filepath=" + this.makeModelPath(filepath),
         });
       }
@@ -109,7 +109,7 @@ class Client {
       height: 600,
       frame: true,
       resizable: false,
-      icon: path.join(__dirname, "./favicon.ico"),
+      icon: path.join(__dirname, "../favicon.ico"),
       webPreferences: {
         contextIsolation: false,
         webSecurity: false,
@@ -125,7 +125,7 @@ class Client {
         `${LOCAL_URL}/pre.html?filepath=${this.makeModelPath(filepath)}`
       );
     } else {
-      pre.loadFile(path.join(__dirname, "renderer/pre.html"), {
+      pre.loadFile(path.join(__dirname, "../renderer/pre.html"), {
         search: "?filepath=" + this.makeModelPath(filepath),
       });
     }
@@ -146,7 +146,7 @@ class Client {
       height: 600,
       frame: true,
       resizable: false,
-      icon: path.join(__dirname, "./favicon.ico"),
+      icon: path.join(__dirname, "../favicon.ico"),
       webPreferences: {
         contextIsolation: false,
         devTools: DEV.sys,
@@ -160,7 +160,7 @@ class Client {
     if (IS_LOCAL) {
       sys.loadURL(`${LOCAL_URL}/sys.html`);
     } else {
-      sys.loadFile(path.join(__dirname, "renderer/sys.html"));
+      sys.loadFile(path.join(__dirname, "../renderer/sys.html"));
     }
     if (DEV.sys) sys.webContents.openDevTools();
     sys.on("closed", () => {
@@ -207,7 +207,7 @@ class Client {
     app.whenReady().then(() => {
       this.createWindow();
       const mainWindow = this.win;
-      this.tray = new Tray(path.join(__dirname, "./favicon.ico"));
+      this.tray = new Tray(path.join(__dirname, "../favicon.ico"));
       let trayConfig = [
         {
           label: "置顶",
@@ -278,13 +278,22 @@ class Client {
               this.server.store.delete("sayConfig");
             },
           },
+          {
+            label: "还原IsFirst",
+            type: "normal",
+            click: (item, win) => {
+              this.server.store.delete("isFirst");
+            },
+          },
         ]);
       }
       const contextMenu = Menu.buildFromTemplate(trayConfig);
 
       this.tray.setToolTip("MPet");
       this.tray.setContextMenu(contextMenu);
-
+      this.tray.on("click", () => {
+        this.createSysDialog();
+      });
       app.on("activate", function () {
         if (BrowserWindow.getAllWindows().length === 0) {
           this.createWindow();
@@ -333,7 +342,7 @@ class Client {
     if (IS_LOCAL) {
       mainWindow.loadURL(`${LOCAL_URL}/home.html`);
     } else {
-      mainWindow.loadFile(path.join(__dirname, "renderer/home.html"));
+      mainWindow.loadFile(path.join(__dirname, "../renderer/home.html"));
     }
 
     if (DEV.main) mainWindow.webContents.openDevTools();
@@ -358,6 +367,11 @@ class Client {
       });
     } else {
       this.win.setIgnoreMouseEvents(false);
+    }
+
+    if (this.server.isFirst) {
+      this.createSysDialog();
+      this.server.noIsFirst();
     }
   }
 
@@ -437,4 +451,4 @@ class Client {
   }
 }
 
-new Client();
+const client = new Client();

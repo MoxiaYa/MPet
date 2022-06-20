@@ -28,7 +28,13 @@
         </el-table-column>
         <el-table-column label="操作" width="80">
           <template #default="scope">
-            <el-link type="danger" @click="delSay(scope.row.id, scope.$index)"
+            <el-link type="primary" v-if="scope.row.type === 'yiyan'"
+              >修改</el-link
+            >
+            <el-link
+              type="danger"
+              v-else
+              @click="delSay(scope.row.id, scope.$index)"
               >删除</el-link
             >
           </template>
@@ -54,6 +60,7 @@ const sayType = {
   time: "报时",
   text: "文本",
   timing: "定时提醒",
+  yiyan: "一言API",
 };
 const props = defineProps({
   sayConfig: Object,

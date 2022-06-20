@@ -1,0 +1,23 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "18175014",
+      "name": "箭头,拖动",
+      "font_class": "move-full",
+      "unicode": "ea57",
+      "unicode_decimal": 59991
+    },
+    {
+      "icon_id": "23376824",
+      "name": "缩放",
+      "font_class": "suofang",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    }
+  ]
+}

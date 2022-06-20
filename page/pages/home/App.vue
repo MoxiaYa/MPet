@@ -9,6 +9,27 @@ import Scene from "@components/Scene.vue";
 </template>
 
 <style lang="less">
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url("@assets/icon/iconfont.ttf?t=1655735147130") format("truetype");
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-move-full:before {
+  content: "\ea57";
+}
+
+.icon-suofang:before {
+  content: "\e60c";
+}
+
 #app {
   position: relative;
   z-index: 2023;

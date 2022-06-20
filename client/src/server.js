@@ -5,6 +5,7 @@ const _ = require("lodash");
 const SayController = require("./say");
 class App {
   constructor(client) {
+    this.isFirst = false;
     this.client = client;
     this.sayRandom = [];
     this.sayBase = 50;
@@ -92,6 +93,12 @@ class App {
       const defaultConfig = {
         random: [
           {
+            id: "lock_yiyan",
+            type: "yiyan",
+            value: "https://v1.jinrishici.com/all.txt",
+            enabled: true,
+          },
+          {
             id: "1",
             type: "time",
             value: "喂喂喂，现在已经{{time}}了哟~",
@@ -115,7 +122,7 @@ class App {
             param: "21:20",
           },
         ],
-        base: 50,
+        base: 30,
       };
       this.store.set("sayConfig", defaultConfig);
       configStore = defaultConfig;
@@ -150,6 +157,14 @@ class App {
     }
     this.store = store;
     this.client.initConfig({ ...this.config });
+    let isFirst = store.get("isFirst");
+    if (!isFirst) {
+      this.isFirst = true;
+    }
+  }
+
+  noIsFirst() {
+    this.store.set("isFirst", "no");
   }
 
   setConfigProxy(config) {
