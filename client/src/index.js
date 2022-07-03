@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Tray, Menu, dialog } = require("electron");
 const path = require("path");
 const Server = require("./server");
 
-const IS_LOCAL = true;
+const IS_LOCAL = false;
 const LOCAL_URL = "http://localhost:3000";
 const DEV = {
   main: false,
